@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Video e GIF su Sfondo Verde Oliva</title>
+
+<style>
+/* ================= BASE ================= */
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Great Vibes', cursive;
+  background-color: #6b7b57; /* verde oliva di default */
+}
+
+/* ================= INTRO ================= */
+#intro {
+  position: fixed;
+  inset: 0;
+  background-color: #6b7b57;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#intro svg {
+  position: absolute;
+  inset: 0;
+}
+
+#seal {
+  width: 150px;
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity 1s ease;
+}
+
+/* ================= VIDEO ================= */
+#videoContainer {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+}
+
+#videoContainer.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= FINALE ================= */
+#finalScreen {
+  position: fixed;
+  inset: 0;
+  background-color: #6b7b57;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================= GIF ================= */
+#finalGIF {
+  max-width: 100%;
+  max-height: 100%;
+  display: none; /* nascosta finché il video non finisce */
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= INTRO ================= -->
+<div id="intro">
+  <svg width="100%" height="100%">
+    <line x1="0" y1="0" x2="50%" y2="55%" stroke="#d4d1b0" stroke-width="2"/>
+    <line x1="100%" y1="0" x2="50%" y2="55%" stroke="#d4d1b0" stroke-width="2"/>
+  </svg>
+
+  <img id="seal" src="prova3/sigillo.png" alt="Timbro M & V">
+</div>
+
+<!-- ================= VIDEO ================= -->
+<div id="videoContainer">
+  <video id="myVideo" muted playsinline>
+    <source src="prova3/prova2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- ================= FINALE ================= -->
+<div id="finalScreen">
+  <img id="finalGIF" src="prova3/1.gif" alt="GIF Trasparente">
+</div>
+
+<script>
+const intro = document.getElementById("intro");
+const seal = document.getElementById("seal");
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("myVideo");
+const finalScreen = document.getElementById("finalScreen");
+const finalGIF = document.getElementById("finalGIF");
+
+/* Avvio intro */
+seal.addEventListener("click", () => {
+  seal.style.opacity = "0";
+  setTimeout(() => {
+    intro.style.display = "none";
+    videoContainer.classList.add("active");
+    video.play();
+  }, 800);
+});
+
+/* Fine video */
+video.addEventListener("ended", () => {
+  videoContainer.classList.remove("active");
+  setTimeout(() => {
+    videoContainer.style.display = "none";
+    finalScreen.style.opacity = "1";
+    finalScreen.style.pointerEvents = "auto";
+    finalGIF.style.display = "block"; // mostra la GIF
+  }, 1500);
+});
+</script>
+
+</body>
+</html>

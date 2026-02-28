@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Invito Matrimonio</title>
+
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+/* ================= BASE ================= */
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #6b7b57;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ================= INTRO ================= */
+#intro {
+  position: fixed;
+  inset: 0;
+  background-color: #6b7b57;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+#intro svg {
+  position: absolute;
+  inset: 0;
+}
+
+#seal {
+  width: 150px;
+  cursor: pointer;
+  z-index: 5;
+  transition: opacity 1s ease;
+}
+
+/* ================= VIDEO ================= */
+#videoContainer {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+  z-index: 90;
+}
+
+#videoContainer.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= CONTENUTO ================= */
+#finalScreen {
+  position: relative;
+  padding-top: 6vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  z-index: 10;
+}
+
+/* ================= BLOCCO GIF + COUNTDOWN ================= */
+#gifWrapper {
+  position: relative;
+  width: 90%;
+  max-width: 520px;
+  transition: transform 1.6s ease;
+}
+
+#gifWrapper.moveUp {
+  transform: translateY(-15vh);
+}
+
+#finalGIF {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+}
+
+/* ================= COUNTDOWN ================= */
+#countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 16px;
+  color: #ffffff;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+}
+
+.timeBox span {
+  font-size: 38px;
+}
+
+.timeBox small {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ================= TESTO + GIF BE ================= */
+#invitationText {
+  max-width: 700px;
+  margin-top: 10px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 2s ease, transform 2s ease;
+}
+
+#invitationText.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#invitationText p {
+  font-family: 'Great Vibes', cursive;
+  font-size: 34px;
+  line-height: 1.2;
+  color: #f4f1e8;
+  margin: 0;
+}
+
+/* GIF BE GRANDE */
+#secondGIF {
+  width: 360px;
+  max-width: 90vw;
+  margin-top: 25px;
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.35));
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* ================= TITOLO DETTAGLI EVENTO ================= */
+#eventDetailsTitle {
+  margin-top: 18px;
+  text-align: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 32px;
+  color: #f4f1e8;
+  letter-spacing: 0.5px;
+}
+
+/* ================= GIF SOTTO DETTAGLI ================= */
+#eventGifs {
+  margin-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 520px;
+}
+
+#crazyGIF,
+#crayGIF {
+  width: 160px;
+  max-width: 40vw;
+}
+
+#crazyGIF {
+  margin-left: 0;
+}
+
+#crayGIF {
+  margin-right: 0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <svg width="100%" height="100%">
+    <line x1="0" y1="0" x2="50%" y2="55%" stroke="#d4d1b0" stroke-width="2"/>
+    <line x1="100%" y1="0" x2="50%" y2="55%" stroke="#d4d1b0" stroke-width="2"/>
+  </svg>
+  <img id="seal" src="prova3/sigillo.png" alt="Sigillo">
+</div>
+
+<!-- VIDEO -->
+<div id="videoContainer">
+  <video id="myVideo" muted playsinline>
+    <source src="prova3/prova2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- CONTENUTO -->
+<div id="finalScreen">
+
+  <div id="gifWrapper">
+    <img id="finalGIF" src="prova3/1.gif" alt="GIF Matrimonio">
+
+    <div id="countdown">
+      <div class="timeBox"><span id="days"></span><small>Giorni</small></div>
+      <div class="timeBox"><span id="hours"></span><small>Ore</small></div>
+      <div class="timeBox"><span id="minutes"></span><small>Minuti</small></div>
+      <div class="timeBox"><span id="seconds"></span><small>Secondi</small></div>
+    </div>
+  </div>
+
+  <div id="invitationText">
+    <p>Con emozione e gioia vi invitiamo al nostro matrimonio</p>
+    <img id="secondGIF" src="prova3/be.gif" alt="GIF Be">
+
+    <div id="eventDetailsTitle">Dettagli evento</div>
+
+    <div id="eventGifs">
+      <img id="crazyGIF" src="prova3/crazy.gif" alt="GIF Crazy">
+      <img id="crayGIF" src="prova3/cray.gif" alt="GIF Cray">
+    </div>
+  </div>
+
+</div>
+
+<script>
+const seal = document.getElementById("seal");
+const intro = document.getElementById("intro");
+const video = document.getElementById("myVideo");
+const videoContainer = document.getElementById("videoContainer");
+const finalScreen = document.getElementById("finalScreen");
+const gifWrapper = document.getElementById("gifWrapper");
+const invitationText = document.getElementById("invitationText");
+
+/* INTRO → VIDEO */
+seal.onclick = () => {
+  seal.style.opacity = "0";
+  setTimeout(() => {
+    intro.style.display = "none";
+    videoContainer.classList.add("active");
+    video.play();
+  }, 800);
+};
+
+/* VIDEO → CONTENUTO */
+video.onended = () => {
+  videoContainer.style.display = "none";
+  finalScreen.style.opacity = "1";
+  startCountdown();
+
+  setTimeout(() => gifWrapper.classList.add("moveUp"), 1200);
+  setTimeout(() => invitationText.classList.add("show"), 2800);
+};
+
+/* COUNTDOWN */
+const targetDate = new Date("2026-07-24T00:00:00").getTime();
+
+function startCountdown() {
+  setInterval(() => {
+    const d = targetDate - Date.now();
+    document.getElementById('days').textContent = Math.floor(d / 86400000);
+    document.getElementById('hours').textContent = Math.floor(d / 3600000) % 24;
+    document.getElementById('minutes').textContent = Math.floor(d / 60000) % 60;
+    document.getElementById('seconds').textContent = Math.floor(d / 1000) % 60;
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Invito Matrimonio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+  background: url("./prova3/5.png") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  overflow-y: hidden;
+}
+
+/* INTRO */
+#intro {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+/* SVG LINEE */
+#lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+line {
+  stroke: #a9a16d;
+  stroke-width: 1.5;
+}
+
+/* SIGILLO */
+#seal {
+  width: 160px;
+  cursor: pointer;
+  transition: opacity 1s ease, transform 0.4s ease;
+  position: relative;
+  z-index: 5;
+}
+#seal:hover { transform: scale(1.05); }
+
+/* VIDEO */
+#videoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.5s ease;
+  z-index: 200;
+}
+#videoContainer.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+video {
+  width: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+}
+
+/* CONTENUTO FINALE */
+#finalScreen {
+  opacity: 0;
+  transition: opacity 2s ease;
+  padding: 40px 20px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* DATA MATRIMONIO */
+#weddingDate {
+  font-family: 'Great Vibes', cursive;
+  font-size: 30px;
+  margin-top: 25px;
+}
+
+/* COUNTDOWN */
+#countdown {
+  display: flex;
+  gap: 15px;
+  margin: 25px 0;
+}
+.timeBox {
+  text-align: center;
+}
+.timeNumber {
+  font-size: 30px;
+  font-weight: bold;
+}
+.timeLabel {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* EVENTI */
+#eventGifs {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 600px;
+  width: 100%;
+  margin-top: 30px;
+}
+.eventGifBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#ceremonyCaption, .gifCaption {
+  font-family: 'Great Vibes', cursive;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+/* MODULO RSVP */
+#rsvpBox {
+  background: white;
+  color: black;
+  padding: 30px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: center;
+}
+#rsvpBox input, #rsvpBox textarea, #rsvpBox button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+#rsvpBox button {
+  background: #a9a16d;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* GIF CIP */
+#cipGif {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 150px;
+  transform: rotate(235deg);
+  opacity: 0;
+  transition: opacity 1s;
+  z-index: 300;
+}
+#cipGif.active { opacity: 1; }
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <svg id="lines">
+    <line id="leftLine"/>
+    <line id="rightLine"/>
+  </svg>
+  <img id="seal" src="prova3/sigillo.png">
+</div>
+
+<!-- VIDEO -->
+<div id="videoContainer">
+  <video id="myVideo" muted playsinline>
+    <source src="prova3/prova2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- CONTENUTO FINALE -->
+<div id="finalScreen">
+
+<p style="font-family:'Great Vibes', cursive; font-size:34px;">
+Con emozione e gioia vi invitiamo al nostro matrimonio
+</p>
+
+<p id="weddingDate">24 Luglio 2026</p>
+
+<div id="countdown">
+  <div class="timeBox">
+    <div class="timeNumber" id="days">0</div>
+    <div class="timeLabel">Giorni</div>
+  </div>
+  :
+  <div class="timeBox">
+    <div class="timeNumber" id="hours">0</div>
+    <div class="timeLabel">Ore</div>
+  </div>
+  :
+  <div class="timeBox">
+    <div class="timeNumber" id="minutes">0</div>
+    <div class="timeLabel">Minuti</div>
+  </div>
+  :
+  <div class="timeBox">
+    <div class="timeNumber" id="seconds">0</div>
+    <div class="timeLabel">Secondi</div>
+  </div>
+</div>
+
+<div id="eventGifs">
+  <div class="eventGifBlock">
+    <img src="prova3/crazy.gif" width="200">
+    <div id="ceremonyCaption">Cerimonia religiosa</div>
+    <div>Chiesa di San Matteo</div>
+    <div>Ore: 16:30</div>
+    <div>Lecce</div>
+  </div>
+
+  <div class="eventGifBlock">
+    <img src="prova3/cray.gif" width="150">
+    <div class="gifCaption">Ricevimento</div>
+    <div>Villa Zaira</div>
+    <div>Via Giosuè Carducci, 90, Maglie</div>
+  </div>
+</div>
+
+<!-- MODULO RSVP -->
+<form action="https://formsubmit.co/lincianoalessia21@gmail.com" method="POST" id="rsvpBox">
+  <input type="hidden" name="_captcha" value="false">
+  <input type="hidden" name="_subject" value="Nuova risposta matrimonio">
+
+  <p><strong>Ti aspettiamo con affetto!</strong><br>
+  Completa il modulo qui sotto per comunicarci la tua decisione.<br>
+  Aspettiamo risposta entro il 7 Luglio 2026.</p>
+
+  <label>
+    <input type="radio" name="Presenza" value="Confermo la presenza" required>
+    Confermo la presenza
+  </label>
+  <label>
+    <input type="radio" name="Presenza" value="Non posso partecipare">
+    Non posso partecipare
+  </label>
+
+  <input type="number" name="Numero persone" placeholder="Quante persone siete?" required>
+  <input type="text" name="Bambini" placeholder="Verrai con bambini?">
+  <textarea name="Allergie" placeholder="Inserire allergie"></textarea>
+  <textarea name="Messaggio" placeholder="Vuoi lasciare un messaggio?"></textarea>
+
+  <button type="submit">Invia risposta</button>
+</form>
+
+<img id="cipGif" src="prova3/cip.gif">
+
+</div>
+
+<script>
+const seal = document.getElementById("seal");
+const intro = document.getElementById("intro");
+const videoContainer = document.getElementById("videoContainer");
+const video = document.getElementById("myVideo");
+const finalScreen = document.getElementById("finalScreen");
+
+function drawLines(){
+  const rect = seal.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
+
+  document.getElementById("leftLine").setAttribute("x1",0);
+  document.getElementById("leftLine").setAttribute("y1",0);
+  document.getElementById("leftLine").setAttribute("x2",cx);
+  document.getElementById("leftLine").setAttribute("y2",cy);
+
+  document.getElementById("rightLine").setAttribute("x1",window.innerWidth);
+  document.getElementById("rightLine").setAttribute("y1",0);
+  document.getElementById("rightLine").setAttribute("x2",cx);
+  document.getElementById("rightLine").setAttribute("y2",cy);
+}
+
+window.onload = drawLines;
+window.onresize = drawLines;
+
+seal.onclick = ()=>{
+  intro.style.display="none";
+  videoContainer.classList.add("active");
+  video.play();
+};
+
+video.onended = ()=>{
+  videoContainer.style.display="none";
+  finalScreen.style.opacity="1";
+  document.body.style.overflowY="auto";
+  document.getElementById("cipGif").classList.add("active");
+};
+
+/* COUNTDOWN */
+const weddingDate = new Date("2026-07-24T16:30:00");
+function updateCountdown(){
+  const now = new Date();
+  const diff = weddingDate - now;
+  if(diff<=0) return;
+  document.getElementById("days").innerText = Math.floor(diff/(1000*60*60*24));
+  document.getElementById("hours").innerText = Math.floor((diff/(1000*60*60))%24);
+  document.getElementById("minutes").innerText = Math.floor((diff/(1000*60))%60);
+  document.getElementById("seconds").innerText = Math.floor((diff/1000)%60);
+}
+setInterval(updateCountdown,1000);
+updateCountdown();
+</script>
+
+</body>
+</html>
